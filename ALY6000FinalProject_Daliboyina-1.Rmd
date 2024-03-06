@@ -1,0 +1,595 @@
+---
+Title: "ALY6000FinalProject_Daliboyina"
+output: html_document
+date: "2023-01-20"
+---
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TITLE : </b></p></FONT></BR>
+<CENTER>
+<FONT SIZE = 4 COLOR="Blue">
+<Br><B> ALY6000 Introduction to Analytics </B></Br>
+<Br> Northeastern University </Br>
+<Br> Sasank Yadav Daliboyina </Br>
+<Br> Date: `r format(Sys.time(), "%d %B, %Y")`</Br>
+<Br> Instructor: Dr.Dee Chiluiza,PhD </Br>
+<FONT COLOR="RED"><B></Br><P> FINAL PROJECT REPORT - DATA ANALYSIS</P></Br></B></FONT>
+</FONT>
+</CENTER></P>
+
+
+
+<br><br><br><br><br>
+
+
+---
+LIBRARY DATA :
+---
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>LIBRARY DATA : </b></p></FONT></BR>
+```{r libraries data, message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+#Libraries used in the report :
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+#Data sets(Add Importing codes here)
+FinalData=read_excel("Datasets/M6_project_dataset(2023).xlsx")
+```
+
+---
+INTRODUCTION : 
+
+---
+<BR>
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>INTRODUCTION : </b></p> </FONT></BR>
+<p>The Dataset contains 1000Rows and 17Columns of different states and different regions of Africa,Asia Pacific,Europe,LATAM and USCA markets.The data tables and information is well structured and ordered data.The each variable values are discrete data and not continuous.
+These in par with the variables namely department,division and their respective product prices and shipping cost.
+The market variable has also returns and their loss per return.There is also mode of shipping through which products deliver.Based upon the division there is an order of priority.There is also a unique productID to identify orders.
+In general, product price and quantity should be directly proportional to returns.But in the data , we can observe that there is fluctuations in the returns in related to quantity.
+The data tables and information is well structured and ordered data.The each variable values are discrete data and not continuous.There is no ambiguity in the data which helps for the further clear analytics.The data is also a discrete ordinal as data is classified in par with priority.
+
+<p> 1. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; According to the book "Research Methods for Business: A Skill Building Approach" by Uma Sekaran and Roger Bougie,Descriptive statistics is analyzing and summarizing sample data from a large data set or a population. Inferential Statistics makes inferences or prediction on large data set or a population based on a sample of data. Both are important to understand and making sense of data,with descriptive statistics providing general idea and overview of the data and inferential statistics allowing for detailed interpretation to be drawn.
+ 2. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; According to the book "Data Visualization: A Practical Introduction" by Kieran Healy, "Proper data presentation is important because it can help to make complex information clear, reveal patterns and relationships that might not be immediately apparent, and allow for effective decision-making. When data is presented in a clear, accurate, and engaging way, it can be more easily understood by a wide range of audiences, including experts and non-experts alike."
+<p>Both R and R Markdown are used for statistical programming and data analysis, although they differ in a few key ways. I'll discuss the similarities and differences between the two R files and the R Markdown files in my response, as well as their advantages and disadvantages.</p>
+<p><b>SIMILARITIES:</b></p>
+1. For statistical programming and data analysis, R files and R Markdown files are both acceptable options.
+2. The integrated development environment (IDE) for the R programming language, RStudio, supports both types of files.
+3. They can both handle, alter, and analyze data using R code and functions.
+<br><br><br>
+<p><b>DIFFERENCES:</b></p>
+1. R Markdown files may include both markdown text and R code, whereas R files only contain R code. Lightweight markup languages like Markdown make it simple to format text using headers, lists, and bold or italic text. Since code, text, and output can all be combined in one document to create repeatable reports, R Markdown files are advantageous in this regard.
+2. R Markdown files include the option of containing executable code chunks, allowing you to run R code and see the results right away in the page. As a result, it's simple to generate and distribute dynamic reports that update as soon as the underlying data or programming changes.
+3. HTML, PDF, and Word documents are just a few of the output types that R Markdown files may produce. They are therefore a flexible tool for disseminating data or producing polished reports for publishing.
+4. As R Markdown files include both the code and the text that describes what the code does, they are more self-contained and simpler to share than R files. By doing this, it will be simpler for others to comprehend and replicate your analysis.
+<br><br><br>
+<p><b>PROS and CONS</b></p>
+1. Because R files are clear-cut and easy to use, they are a suitable choice for creating rapid scripts or carrying out ad hoc data transformations.
+2. It is simpler to communicate with people and share your work when you use R Markdown files to organize and reproduce your code and findings.
+3. The biggest drawback of R Markdown files is that, particularly if you're unfamiliar with the format, they might be trickier to set up and use than straightforward R scripts.
+
+
+<br><br><br>
+
+
+
+<FONT SIZE=3 COLOR="#882F1C">
+<p><b>Citations for the above information. </b></p></FONT>
+<p><i>1. &nbsp;&nbsp; Bluman, A. G. (2003). A brief version elementary statistics a step by step approach (2nd ed.). Boston Burr Ridge: McGraw-Hill.</i></p>
+<p><i>2. &nbsp;&nbsp; R Markdown: The Definitive Guide by Yihui Xie, J. J. Allaire, and Garrett Grolemund (https://bookdown.org/yihui/rmarkdown/)</i></p>
+<p><i>3. &nbsp;&nbsp; Smith, J. (2020). Introduction to R, RStudio, and R Markdown. Retrieved from https://bookdown.org/josiesmith/labbook/introduction-to-r-rstudio-and-r-markdown.html. </i></p>
+<p><i>4.  &nbsp;&nbsp; R Markdown: The Definitive Guide (2021). RStudio. https://bookdown.org/yihui/rmarkdown/ </i></p>
+
+
+
+
+<br><br><br><br><br><Br>
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 1: </b>
+</p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : Descriptive Analytics.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : The below task represents the basic descriptive analytics of the data. </b>
+</p></FONT>
+
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+Africa_mar<-dplyr::filter(FinalData, Market=="Africa")
+AP_mar<-dplyr::filter(FinalData, Market=="Asia Pacific")
+Europe_mar<-dplyr::filter(FinalData, Market=="Europe")
+LATAM_mar<-dplyr::filter(FinalData, Market=="LATAM")
+USCA_mar<-dplyr::filter(FinalData, Market=="USCA")
+
+med1<-median(FinalData$Product_Price)
+med2<-median(FinalData$Quantity)
+med3<-median(FinalData$Shipping_Cost_Each)
+med4<-median(FinalData$Returns)
+med5<-median(FinalData$Loss_Per_Return)
+
+mean1<-mean(FinalData$Product_Price)
+mean2<-mean(FinalData$Quantity)
+mean3<-mean(FinalData$Shipping_Cost_Each)
+mean4<-mean(FinalData$Returns)
+mean5<-mean(FinalData$Loss_Per_Return)
+
+sdv1<-sd(FinalData$Product_Price)
+sdv2<-sd(FinalData$Quantity)
+sdv3<-sd(FinalData$Shipping_Cost_Each)
+sdv4<-sd(FinalData$Returns)
+sdv5<-sd(FinalData$Loss_Per_Return)
+
+min1<-min(FinalData$Product_Price)
+min2<-min(FinalData$Quantity)
+min3<-min(FinalData$Shipping_Cost_Each)
+min4<-min(FinalData$Returns)
+min5<-min(FinalData$Loss_Per_Return)
+
+max1<-max(FinalData$Product_Price)
+max2<-max(FinalData$Quantity)
+max3<-max(FinalData$Shipping_Cost_Each)
+max4<-max(FinalData$Returns)
+max5<-max(FinalData$Loss_Per_Return)
+
+range1=max1-min1
+range2=max2-min2
+range3=max3-min3
+range4=max4-min4
+range5=max5-min5
+
+Mean<- round(c(mean1,mean2,mean3,mean4,mean5),2)
+
+Median <- round(c(med1,med2,med3,med4,med5),2)
+
+Standard_deviation <- round(c(sdv1,sdv2,sdv3,sdv4,sdv5),2)
+Maximum=round(c(max1,max2,max3,max4,max5))
+Minimum=round(c(min1,min2,min3,min4,min5))
+Range <- round(c(range1,range2,range3,range4,range5))
+
+Variables<-c("Price","Quantity","Shipping_cost","Returns","Loss_on_Returns")
+fp_table<-cbind(Variables,Median,Mean,Standard_deviation,Maximum,Minimum,Range)
+
+knitr::kable(fp_table, caption="Table for Median Data")%>%
+  kable_material_dark(html_font = "Calibiri", lightable_options = "striped")
+
+median_Africa=round(tapply(Africa_mar$Shipping_Cost_Each,Africa_mar$Market,median),2)
+median_AP=round(tapply(AP_mar$Shipping_Cost_Each,AP_mar$Market,median),2)
+median_Europe=round(tapply(Europe_mar$Shipping_Cost_Each,Europe_mar$Market,median),2)
+median_LATAM=round(tapply(LATAM_mar$Shipping_Cost_Each,LATAM_mar$Market,median),2)
+median_USCA=round(tapply(USCA_mar$Shipping_Cost_Each,USCA_mar$Market,median),2)
+median_market <- c(median_Africa, median_AP, median_Europe, median_LATAM, median_USCA)
+
+par(bg = "#C8A5B7",mai=c(3,9,0,0),mar=c(5,8,6,4), mgp=c(4,1,0))
+bp_profp<-barplot(median_market, ylim = c(0,50), col = c("#38A154","#0d542e","#801404","#591c47","grey"), xlab = "Market", ylab = "Values", main = "Barplot for Means per Market", las=1)
+ 
+
+par(bg = "#f2dfec")
+hist(FinalData$Shipping_Cost_Each, ylim = c(0,400), xlim = c(0,60), xlab = "Shipping costs", ylab="Frequency", col = rainbow(12), main="Histogram for shipping costs count")
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : <b> The above table represents the descriptive statistics like Median,mean,standard deviation,maximum,minimum,range of all the variables in dataset. The barplot figure represents the means for each market. The other histogram figure shows the shipping costs. The reason to take histogram is to represent the continuous data. </p></br></FONT>
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+Market=FinalData$Market
+matrix_finaldata= matrix(table(Market),dimnames = list(c("Africa","Asia Pacific","Europe","LATAM", "USCA"), c("Frequency")))
+library(knitr)
+matrix_finaldata %>%
+  kbl() %>%
+  kable_material_dark("hover")
+```
+
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : <b> The above is an extra frequency table represents the list of different markets and their frequencies in the data. This is achieved using a matrix function.This shows the Asia Pacific has the highest frequency among all in the data and Africa has the least.</p></br></FONT>
+
+
+
+```{r  message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+Table_fpro=knitr::kable(matrix_finaldata)
+marketclass1=table(Market)
+par(bg = "#5A8A67")
+finalbplot=barplot(table(Market), col=rainbow(5),horiz = T, main="Returns per Market : Daliboyina Sasank Yadav",
+   xlab="Frequency", ylab="Market",xlim = c(0,400),legend.text = rownames(marketclass1))
+text(x=table(Market),finalbplot, table(Market), cex = 1,las=1, pos = 4)
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : <b> The above extra barplot represents the same frequency table which is achieved before .For the better visualization the rainbow() function is used in barplot().Asia Pacific has the highest among all and africa with lowest frequency.</p></br></FONT>
+
+
+<br><br><br><br><br><Br>
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 2: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : Shipping Cost each Variable.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : Distribution of Shipping cost each variable using boxplot and histogram. </b>
+</p></FONT>
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+par(mfcol=c(2,1),mai=c(3,3,0.2,0.4),mar=c(0,2,6,4))
+meansce=round(mean(FinalData$Shipping_Cost_Each),2)
+mediansce=round(median(FinalData$Shipping_Cost_Each),2)
+par(bg = "#B8F1E8")
+finalbxplot3=boxplot(FinalData$Shipping_Cost_Each, horizontal=TRUE, main="Box-Plot for Shipping Cost Each : Sasank Yadav Daliboyina",ylim=c(0,80),col = "blue")
+finalbxplot3
+abline(v=meansce,col="brown",lwd=2,lty=3)
+abline(v=mediansce,col="green",lwd=2,lty=3)
+finalhist1=hist(FinalData$Shipping_Cost_Each, main="Histogram for Shipping Cost Each : Sasank Yadav Daliboyina", xlab="Shipping Cost Each", ylab="Frequency",col=rainbow(6),horiz=T)
+finalhist1
+abline(v=meansce,col="red",lwd=2,lty=3)
+abline(v=mediansce,col="green",lwd=2,lty=3)
+
+
+```
+
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : <b> The above figures represents boxplots and histogram.The task requires to calculate mean() and median() of the shipping_cost_each variable and present the curve on both boxplots and histogram using abline() function. Hence, the mean is 14.32 and median is 8.58. </p></br></FONT>
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 3: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : Shipping Costs Versus Market.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : Boxplot for market versus Shipping costs and pointing minimum and maximum shipping costs.</b>
+</p></FONT>
+```{r  message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+par(bg = "#D0C2D8",mai=c(3,9,0,0),mar=c(5,10,6,4), mgp=c(4,1,0))
+boxplot(FinalData$Shipping_Cost_Each~FinalData$Market,xlab = "Market", ylab = "Shipping Costs",las=1, main=" Shipping costs per each Market")
+rect(par("usr")[1], par("usr")[3],
+     par("usr")[2], par("usr")[4],
+     col = "#f7f7f7")
+max_sce=max(FinalData$Shipping_Cost_Each)
+min_sce=min(FinalData$Shipping_Cost_Each)
+par(new = TRUE)
+boxplot(FinalData$Shipping_Cost_Each~FinalData$Market,xlab = "Market", ylab = "Shipping Costs", col =  c("pink","#0d542e","grey","#BBC244","#38A154"), las=1) 
+abline(h=max_sce,col="#6E1285",lwd=3,lty=3)
+abline(h=min_sce,col="#F2B906",lwd=0,lty=3)
+
+```
+
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : <b> The above boxplots represents the individual markets shipping costs. Boxplot is the good option here to represent the minimum,maximum and quartiles. The abline() represents the minimum and maximum values of the distribution. Africa has the highest median among all other markets.USCA has the lowest distribution of both mean and median among others.The major distribution  of shipping costs values of Africa lies between 15-40 below the median. LATAM and USCA has the maximum distribution above the median.The median of Africa is likely near to Q3 so it can be declared as a negative skew.Whereas AsiaPacific,Europe,LATAM,USCA are closely to first quartile thus are positively skewed. From the output, Asia Pacific and Europe has more number of outliers that means there are chances of more unusual data.More the outliers , more the prediction rate would be.USCA has less unsued data.</p></br></FONT>
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 4: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : Shipping Costs per Market.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description :Providing mean for shipping costs per market. </b>
+</p></FONT>
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+Africa=dplyr::filter(FinalData, Market=="Africa")
+AsiaPacific=dplyr::filter(FinalData, Market=="Asia Pacific")
+Europe=dplyr::filter(FinalData, Market=="Europe")
+LATAM=dplyr::filter(FinalData, Market=="LATAM")
+USCA=dplyr::filter(FinalData, Market=="USCA")
+mean_Africa=round(tapply(Africa$Shipping_Cost_Each,Africa$Market,mean),2)
+mean_AsiaPacific=round(tapply(AsiaPacific$Shipping_Cost_Each,AsiaPacific$Market,mean),2)
+mean_Europe=round(tapply(Europe$Shipping_Cost_Each,Europe$Market,mean),2)
+mean_LATAM=round(tapply(LATAM$Shipping_Cost_Each,LATAM$Market,mean),2)
+mean_USCA=round(tapply(USCA$Shipping_Cost_Each,USCA$Market,mean),2)
+means_marketFinal= c(mean_Africa, mean_AsiaPacific, mean_Europe, mean_LATAM, mean_USCA)
+par(bg = "#668B0B")
+bxp_final=barplot(means_marketFinal, ylim = c(0,40), col = c("pink","#0d542e","grey","#BBC244","#38A154"), xlab = "Market", ylab = "Mean Values", main = "Means per each Market")
+text(y = means_marketFinal, bxp_final,means_marketFinal,pos=3)
+```
+
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : <b> The above bar graph represents the mean values of each market. Used filter function to filter specific market. Using tapply() mean of each market's shipping costs is calculated. As shown in the previous task, Africa has the highest median and distribution so as mean.LATAM market with next highest mean value. With the comparison we can infer skewness. As Asia Pacific is positively skewed the mean would be close to the first quartile.There is no much difference between the distribution of Asia Pacific and Europe.The more the close to the 1st quartile the less the median and mean is.Larger the range the more is the scattered data.   </p></br></FONT>
+
+
+<br><br><br><br><br>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : (This is for extra 4 points) Median of Loss per Market for each market.</b>
+</p></FONT>
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+Africa1=dplyr::filter(FinalData, Market=="Africa")
+AsiaPacific1=dplyr::filter(FinalData, Market=="Asia Pacific")
+Europe1=dplyr::filter(FinalData, Market=="Europe")
+LATAM1=dplyr::filter(FinalData, Market=="LATAM")
+USCA1=dplyr::filter(FinalData, Market=="USCA")
+median_Africa1=round(tapply(Africa1$Loss_Per_Return,Africa1$Market,median),2)
+median_AsiaPacific1=round(tapply(AsiaPacific1$Loss_Per_Return,AsiaPacific1$Market,median),2)
+median_Europe1=round(tapply(Europe1$Loss_Per_Return,Europe1$Market,median),2)
+median_LATAM1=round(tapply(LATAM1$Loss_Per_Return,LATAM1$Market,median),2)
+median_USCA1=round(tapply(USCA1$Loss_Per_Return,USCA1$Market,median),2)
+median_marketFinal1= c(median_Africa1,median_AsiaPacific1,median_Europe1,median_LATAM1,median_USCA1)
+par(bg = "#F1D4AB")
+bxp_final1=barplot(median_marketFinal1,col=rainbow(6),xlab="Market",ylab="Median Values",main="Medians per each Market")
+text(y =median_marketFinal1, bxp_final1,median_marketFinal1,pos=3)
+```
+
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations :  The median is calculated for Loss_per_return variable. The variable is chosen based on the random sampling. The median value loss per return in Asia pacific is the highest and USCA being the lowest. </p></br></FONT>
+
+
+<br><br><br><br><br>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : (This is for extra 4 points) Sum of all returns in each market.</b>
+</p></FONT>
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+Africa2=dplyr::filter(FinalData, Market=="Africa")
+AsiaPacific2=dplyr::filter(FinalData, Market=="Asia Pacific")
+Europe2=dplyr::filter(FinalData, Market=="Europe")
+LATAM2=dplyr::filter(FinalData, Market=="LATAM")
+USCA2=dplyr::filter(FinalData, Market=="USCA")
+sum_Africa2=round(tapply(Africa2$Returns,Africa2$Market,sum),2)
+sum_AsiaPacific2=round(tapply(AsiaPacific2$Returns,AsiaPacific2$Market,sum),2)
+sum_Europe2=round(tapply(Europe2$Returns,Europe2$Market,sum),2)
+sum_LATAM2=round(tapply(LATAM2$Returns,LATAM2$Market,sum),2)
+sum_USCA2=round(tapply(USCA1$Loss_Per_Return,USCA1$Market,sum),2)
+sum_marketFinal2= c(sum_Africa2,sum_AsiaPacific2,sum_Europe2,sum_LATAM2,sum_USCA2)
+par(bg = "#C8EE9B")
+bxp_final2=barplot(sum_marketFinal2,col=rainbow(6),ylim=c(0,15000),xlab="Market",ylab="Sum of returns",main="Sum of Returns per each Market")
+text(y =sum_marketFinal2, bxp_final2,sum_marketFinal2,pos=3)
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations :  The sum is calculated for Returns variable. The variable is chosen based on the random sampling.As the Asia Pacific and Europe market has highest sum of returns among all other.As Africa with less number of orders in the data has the sum of returns less.  </p></br></FONT>
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 5: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : Shipping costs versus Shipping mode.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : Boxplot for Shipping Mode versus Shipping Costs</b>
+</p></FONT>
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+par(bg = "#D574DF")
+boxplot(FinalData$Shipping_Cost_Each~FinalData$ShipMode,xlab = "Shipping Mode", ylab = "Shipping Costs")
+rect(par("usr")[1], par("usr")[3],
+     par("usr")[2], par("usr")[4],
+     col = "#f5f4eb")
+par(new = TRUE)
+boxplot(FinalData$Shipping_Cost_Each~FinalData$ShipMode,xlab = "Shipping Mode", ylab = "Shipping Costs",main="Box plot for Shipping Costs per Shipping Mode", col =  rainbow(6))
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations :  The above boxplot results in comparison with shipping costs of each modes. There are four different modes.From the plots we can observe that the median of first class mode is above 25. The median of shipping costs of same day is 45 approximately. The distribution of shipping costs of second class has most unused data.</p></br></FONT>
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 6: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : A new glimpse.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : Providing glimpse() for new dataset adding new totalsales column </b>
+</p></FONT>
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+FinalData_new = FinalData %>%
+  mutate(TotalSales = Product_Price*Quantity)
+glimpse(FinalData_new[1,])
+
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : The glimpse function enables you to view each column in a data frame. It resembles str() when applied to a data frame, but it aims to display as much information as possible. At the end the new variable column named TotalSales is calculated and added.</p></br></FONT>
+
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 7: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : Department Total sales.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : Using the same functionality of Task 6 calculating sum of total sales of each department. </b>
+</p></FONT>
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+
+df1=FinalData_new%>%
+  group_by(Department)%>%
+  summarise(DepartmentTotalSales=sum(TotalSales))
+
+
+#for extra credit and good graphical representation, the sales is taken as million
+
+df2=FinalData_new %>%
+  group_by(Department) %>%
+  dplyr::summarise(DepartmentTotalSales_in_Million = c(sum(TotalSales)/1000000))
+
+df3=knitr::kable(df2,caption="Sales per Department")%>%
+  kable_material_dark(html_font = "Calibiri", lightable_options = "striped")
+
+Furniture=dplyr::filter(df2, Department=="Furniture")
+OfficeSupplies=dplyr::filter(df2,Department=="Office Supplies")
+Technology=dplyr::filter(df2, Department=="Technology")
+
+
+OfficeSupplies_Sale1 =c(round(Technology$DepartmentTotalSales_in_Million,2),"M")
+
+
+
+
+fbpl=barplot(round((df2$DepartmentTotalSales_in_Million),2)~unique(df2$Department),ylab = "Departments",xlab="Sum of Total Sales in Million",horiz=T,xlim=c(0,50),col=c("pink","blue","brown"))
+text(x =df2$DepartmentTotalSales_in_Million, fbpl,round(df2$DepartmentTotalSales_in_Million),2,pos=4)
+
+
+
+  
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<br><p><b>Observations : The new dataset which is used in the previous task is taken and performed group_by() of Division variable and to find the total sales for each Division. Officesupplies has the highest sum of total sales in million and furniture with lowest sales. For extra credits added a table visualization.</p></br></FONT>
+`r df3`
+<br><Br><Br><br>
+
+
+
+<FONT SIZE=4  COLOR="#882F1C">
+<p><b>TASK &nbsp; 8: </b></p> </FONT></BR>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Title : A Deep Critical Thinking.</b>
+</p></FONT>
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>Description : Using different functionalities answering the different set of codes. </b>
+</p></FONT>
+```{r message=FALSE, warning=FALSE, paged.print=FALSE, Warning=FALSE}
+accept=TRUE
+reject=FALSE
+fmedval = median(FinalData$Product_Price)
+ 
+finaldata2 = FinalData%>%
+  select(-c(OrderDate,ProductID,City,State,Country,Region,Department,Division,Quantity,ShipMode,Loss_Per_Return))
+
+acceptfinaldata=finaldata2 %>%
+  group_by(Segment) %>%
+  filter(Product_Price < fmedval)%>%
+   mutate(option = accept)
+
+rejectfinaldata=finaldata2 %>%
+  group_by(Segment) %>%
+  filter(Product_Price > 2*fmedval)%>%
+   mutate(option = reject)
+
+option_finaltable=rbind(acceptfinaldata,rejectfinaldata)
+
+option_finaltable%>%
+  kbl()%>%
+  kable_material_dark("hover",lightable_options = "striped",html_font = "Lucida Calligraphy")
+
+hist(option_finaltable$Product_Price,main ="Histogram for product price", col = rainbow(7), xlim=c(0,5000),xlab="Product Price")
+  abline(v = mean(option_finaltable$Product_Price),
+  col = "skyblue",lwd=4,lty=3)
+  abline(v = median(option_finaltable$Product_Price),
+  col = "brown",lwd=4,lty=3)
+  
+  par(bg = "#c5bfc7")
+boxplot(option_finaltable$Product_Price,horizontal = TRUE,main = "Boxplot to show our observations on Decision Table", xlab = "Product Price")
+rect(par("usr")[1], par("usr")[3],
+     par("usr")[2], par("usr")[4],
+     col = "#f5f4eb")
+par(new = TRUE)
+boxplot(option_finaltable$Product_Price,horizontal = TRUE, xlab = "Product Price",main="Boxplot to show our observations on Decision Table", col =  "#38A154")
+```
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>OBSERVATION</b>:</p>
+Data manipulation techniques include filter(), group by(), and modify(). To extract a subset of rows from a data set, apply a filter. A data frame's rows can be grouped by one or more variables using the group by function. A data frame's modify function is used to generate new columns based on existing ones. With the help of these three approaches, we may have discovered an answer to a query.According to the data research, product price was expensive and should reach for many people. Hence, based on data and utilizing these three functions, we have developed a solution by constructing a range in order to prevent such circumstance. Based on that range, if product price more than the obtained range, the values are recorded as false, indicating not to accept the order, and as true, indicating to accept the order, if product prices less than twice the median rate.The new characteristics of our new table are option, Segment, OrderPriority, Returns, Product Price, and Shipping Cost Each. The consumer may choose based on the value of the Decision field.
+We have six variables for this query.
+Initially, we utilized our main data set and imported it into a new object. Next, using pipes, we started categorizing the data using the group by function. Finally, we used mutate to insert values of true when the filter condition is fulfilled and false when it is not.
+It is clear from the box plot that the range of 1000-3500 contains a significant number of outliers. Look at the histogram; there is no dispersion of variables, yet the mean value is between 0 and 500. From the box plot we can infere that the most of the distribution of variable lies in between 500</p></br></FONT>
+
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=3 COLOR="#4E0556">
+<p><b>MY PROJECT CONCLUSION</b>:</p>
+Overall, the aim of this project is to obtain both descriptive and inferential statistics.To summarize, the first question we always ask for categories is how many?. This is achieved from the task1 where descriptive analysis is performed. The data set with "FinalData" as an object is initialized and performed with same terminology through out the project. The variables from the dataset is taken and performed basic descriptive statistics. As per the task goals , created a table for this by using bind() function and achieved a table. In addition to it added a barplot for those median values which is calculated and histogram for frequency of shipping costs. Adding one extra barplot of frequency of returns per market. In the next task using a abline() function the mean and median is marked for both boxplot and barplot. The main aim is to show the distribution of shipping cost each variable. In the next task using filter() and tapply() function the means of each market is calculated and represented using barplot. For the extra credits the median of loss per market and Sum of all returns in each market is calculated and represented using different barplots. The Europe market has the highest sum of returns. In the next task the boxplot for shipping mode versus shipping costs is represented and we observe that  median of first class mode is above 25 and The distribution of shipping costs of second class has most unused data as more outliers are present. Using mutate function the new column is added by multiplying product price and quantity variable thus getting total sales. The glimpse() is used to view columns in a dataframe. With the same methodology the sum of total sales of Division variable is calculated in summarise() function this is grouped by using group_by(). Table is created for the same dataframe using kable() function. In the final task  filter(), group by(), and modify() techniques are used. Based on that range, the values are recorded as 0, suggesting not to purchase, and as 1, signaling to buy, if shipping costs less than twice the median rate. If shipping costs more than the obtained range, the values are recorded as 0. Decision, Market, Divison, ShipMode, Product Pricing, and Shipping Cost Each are the new features of our new table. we used mutate to insert values of 1 when the filter condition is fulfilled and 0 when it is not. The Decision field's value may influence the consumer's decision, Finally, the histogram shows no dispersion of variables,yet the mean values is between 10 and 15.
+Overall, Apert from R functions and objects, I have learnt deep critical thinking that is very much necessary in an organization. The strategy I have used is that, I just looked at data first and then analysed some ideas on tasks.Have opened R Markdown and started writing Rcode first,then after started preparing html project document.For some tasks I have worked on both html report and coding at same time and I believe that can save much time in my opinion.
+</FONT>
+
+
+
+<br><br><br><br><br>
+
+
+
+
+<FONT SIZE=3 COLOR="#882F1C">
+<p><b>BIBLIOGRAPHY : </b></p></FONT>
+<p><i>1. &nbsp;&nbspProf Dee Chiluiza RPubs: Pie Charts , https://rpubs.com/Dee_Chiluiza/995745</i></p>
+<p><i>2. &nbsp;&nbsp; Subset rows using column values https://dplyr.tidyverse.org/reference/filter.html</i></p>
+<p><i>3. &nbsp;&nbsp; DataDaft YouTube video: dplyr: filter https://www.youtube.com/watch?v=BkmYBBM2SdQ.</i></p>
+<p><i>4. &nbsp;&nbsp; Subset columns using their names and types https://dplyr.tidyverse.org/reference/select.html </i></p>
+<p><i>5. &nbsp;&nbsp; Ed Boone YouTube video: Tidyverse in R… Select and Group By  https://www.youtube.com/watch?v=timZ6erM7Z4  </i></p>
+<p><i>6. &nbsp;&nbsp; Bluman, A. G. (2003). A brief version elementary statistics a step by step approach (2nd ed.). Boston Burr Ridge: McGraw-Hill.</i></p>
+<p><i>7. &nbsp;&nbsp; For kable_styling : https://www.rdocumentation.org/packages/kableExtra/versions/1.3.4/topics/kable_classic.</i></p>
+<p><i>8. &nbsp;&nbsp; For binding of matrixes : https://www.geeksforgeeks.org/combining-matrices-in-r/ </p></i>
+<p><i>9.&nbsp;&nbsp;  For INLINE R code : https://rmarkdown.rstudio.com/lesson-4.html </p></i>
+<p><i>10. &nbsp;&nbsp; Smith, J. (2020). Introduction to R, RStudio, and R Markdown. Retrieved from https://bookdown.org/josiesmith/labbook/introduction-to-r-rstudio-and-r-markdown.html. </i></p>
+<p><i>11.  &nbsp;&nbsp; R Markdown: The Definitive Guide (2021). RStudio. https://bookdown.org/yihui/rmarkdown/ </i></p>
+
+
+
+<br><br><br><br><br><Br>
+
+
+
+<FONT SIZE=3 COLOR="#882F1C">
+<p><b>APPENDIX : An R Markdown(*.Rmd) file containing the R codes has been attached to this report. The name of this file is ALY6000FinalProject_Daliboyina.Rmd</b></p></FONT>
+
+
+<br><br><br><br><br>
+
+
+<FONT SIZE = 3, COLOR="Red">
+<p><b>THANKS CREDITS : During this course I have learnt many new business skills in the classroom from each and every person. Firstly, Thank you Professor DEE for this wonderful lectures I believe the skills which I have learned from this class will putforth in my upcoming organizations.The way of presenting project report from your perspective is very challenging at the beginning but later on due to some quite number of projects it got habituated. I strongly believe this presentation skills will be continued from my next classes.It is a great learning journey with you professor. Thank You. </b></p></FONT>
+
+<br><Br><Br><Br>
+
+<p>Best Regards,</p>
+<p>Sasank Yadav Daliboyina</p>
